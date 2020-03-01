@@ -6,59 +6,61 @@
 using namespace std;
 
 // this is the breadthfirstsearch developed in class
-// unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, bool &visited)
-// {
-//     unordered_map<int, int> searchTree; // map each vertex to its predecessor
+unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, bool *&visited)
+{
+    unordered_map<int, int> searchTree; // map each vertex to its predecessor
 
-//     searchTree[startVertex] = -1;
+    searchTree[startVertex] = -1;
+    queue<int> q;
+    q.push(startVertex);
 
-//     queue<int> q;
-//     q.push(startVertex);
+    while (!q.empty())
+    {
+        int v = q.front();
+        q.pop();
 
-//     while (!q.empty())
-//     {
-//         int v = q.front();
-//         q.pop();
+        for (auto iter = graph.neighbours(v); iter != graph.endIterator(v); iter++)
+        {
+            if (searchTree.find(*iter) == searchTree.end())
+            {
+                visited[*iter] = true;
+                searchTree[*iter] = v;
+                q.push(*iter);
+            }
+        }
+    }
 
-//         for (auto iter = graph.neighbours(v); iter != graph.endIterator(v); iter++)
-//         {
-//             if (searchTree.find(*iter) == searchTree.end())
-//             {
-//                 searchTree[*iter] = v;
-//                 q.push(*iter);
-//             }
-//         }
-//     }
-
-//     return searchTree;
-// }
+    return searchTree;
+}
 
 // count how many connected graphs
 int count_components(Digraph *g)
 {
-    // int numofvert = g->size();
+    int count = 0;
+    int numofvert = g->size();
 
-    // // create a dynamic array to keep track of visited vertex
-    // bool *visited = new bool[numofvert];
+    // create a dynamic array to keep track of visited vertex
+    bool *visited = new bool[numofvert];
 
-    // // set all vertex initially as not visited
-    // for (int i = 0; i < numofvert; i++)
-    // {
-    //     visited[i] = false;
-    // }
+    // set all vertex initially as not visited
+    for (int i = 0; i < numofvert; i++)
+    {
+        visited[i] = false;
+    }
 
-    // // find the nodes that visited using breadthFirstSearch
-    // for (int i = 0; i < numofvert; i++)
-    // {
-    //     if (visited[i] == false)
-    //     {
-    //         visited[i] = true;
-    //         unordered_map<int, int> searchTree = breadthFirstSearch(*g, i, *visited);
-    //     }
+    // find the nodes that visited using breadthFirstSearch
+    for (int i = 0; i < numofvert; i++)
+    {
+        if (visited[i] == false)
+        {
+            count++;
+            visited[i] = true;
+            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i, visited);
+        }
         
-    // }
+    }
 
-    return 0;
+    return count;
 }
 
 int main(int argc, char *argv[])
