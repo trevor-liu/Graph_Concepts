@@ -27,7 +27,7 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
                 searchTree[*iter] = v;
 
                 // if it is visited, set the node in array to true,
-                // *iter - 1 because the startVertex and visited have 1 index difference
+                // *iter - 1 because the first node is correspond to visited[0]
                 if (visited[*iter - 1] == false)
                 {
                     visited[*iter - 1] = true;
@@ -62,12 +62,14 @@ int count_components(Digraph *g)
         {
             count++;
             visited[i] = true;
-            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i + 1, visited); // notice it is i+1 since the first node start at 1
+            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i + 1, visited); // "i+1" because vistied[1] is == node 
         }
     }
 
     return count;
 }
+
+
 
 int main(int argc, char *argv[])
 {
