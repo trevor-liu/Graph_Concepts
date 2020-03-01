@@ -12,7 +12,8 @@ using namespace std;
   Represents a graph using an adjacency list representation.
   Vertices are assumed to be integers.
 */
-class Digraph {
+class Digraph
+{
 public:
   // No constructor or destructor are necessary this time.
   // A new instance will be an empty graph with no nodes.
@@ -45,11 +46,11 @@ public:
 
   // return a vector with all vertices
   vector<int> vertices();
-  
+
   // returns true if 'walk' represents a walk on this graph
-  // A walk is a sequence of vertices (perhaps with repeated vertices) 
+  // A walk is a sequence of vertices (perhaps with repeated vertices)
   // v0, v1, . . . , vk where (vi,vi+1) is an edge for each 0 <= i < k.
-  // the length of a walk is the number of edges traversed 
+  // the length of a walk is the number of edges traversed
   bool isWalk(vector<int> walk);
 
   // returns true if 'path' represents a path on this graph
