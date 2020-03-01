@@ -5,12 +5,15 @@
 #include "digraph.h"
 using namespace std;
 
+Digraph graph;
+
 // this is the breadthfirstsearch developed in class
-unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, bool *&visited)
+unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex)
 {
     unordered_map<int, int> searchTree; // map each vertex to its predecessor
 
     searchTree[startVertex] = -1;
+
     queue<int> q;
     q.push(startVertex);
 
@@ -23,7 +26,6 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
         {
             if (searchTree.find(*iter) == searchTree.end())
             {
-                visited[*iter] = true;
                 searchTree[*iter] = v;
                 q.push(*iter);
             }
@@ -55,7 +57,7 @@ int count_components(Digraph *g)
         {
             count++;
             visited[i] = true;
-            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i, visited);
+            unordered_map<int, int> searchTree = breadthFirstSearch(graph, i);
         }
         
     }
