@@ -63,22 +63,22 @@ int count_components(Digraph *g)
 
 int main(int argc, char *argv[])
 {
-    // Digraph graph;
-    // int nodes[] = {1, 2, 3, 4, 5, 6};
-    // for (auto v : nodes)
-    //     graph.addVertex(v);
-    // int edges[][2] = {{1, 2}, {3, 4}, {3, 5}, {4, 5}};
-    // for (auto e : edges)
-    // {
-    //     graph.addEdge(e[0], e[1]);
-    //     graph.addEdge(e[1], e[0]);
-    // }
+    Digraph graph;
+    int nodes[] = {1, 2, 3, 4, 5, 6};
+    for (auto v : nodes)
+        graph.addVertex(v);
+    int edges[][2] = {{1, 2}, {3, 4}, {3, 5}, {4, 5}};
+    for (auto e : edges)
+    {
+        graph.addEdge(e[0], e[1]);
+        graph.addEdge(e[1], e[0]);
+    }
 
-    // // printing the result out before and after adding the new edges.
-    // cout << count_components(&graph) << endl;
-    // graph.addEdge(1, 4);
-    // graph.addEdge(4, 1);
-    // cout << count_components(&graph) << endl;
+    // printing the result out before and after adding the new edges.
+    cout << count_components(&graph) << endl;
+    graph.addEdge(1, 4);
+    graph.addEdge(4, 1);
+    cout << count_components(&graph) << endl;
 
     return 0;
 }
