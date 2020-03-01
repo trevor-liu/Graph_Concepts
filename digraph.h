@@ -58,7 +58,7 @@ public:
   bool isPath(vector<int> path);
 
 private:
-  unordered_map<int, unordered_set<int>> nbrs;
+  unordered_map<int, unordered_set<int> > nbrs;
 };
 
 #endif

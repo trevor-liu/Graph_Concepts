@@ -8,5 +8,5 @@ digraph.o: digraph.cpp digraph.h
 	g++ -c digraph.cpp
 
 clean:
-	rm *.o output
+	rm *.o graph_concepts
 
