@@ -5,9 +5,8 @@
 #include "digraph.h"
 using namespace std;
 
-
 // this is the breadthfirstsearch developed in class
-unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex)
+unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, bool *&visited)
 {
     unordered_map<int, int> searchTree; // map each vertex to its predecessor
 
@@ -21,14 +20,21 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
         int v = q.front();
         q.pop();
 
-        // for (auto iter = graph.neighbours(v); iter != graph.endIterator(v); iter++)
-        // {
-        //     // if (searchTree.find(*iter) == searchTree.end())
-        //     // {
-        //     //     searchTree[*iter] = v;
-        //     //     q.push(*iter);
-        //     // }
-        // }
+        for (auto iter = graph.neighbours(v); iter != graph.endIterator(v); iter++)
+        {
+            if (searchTree.find(*iter) == searchTree.end())
+            {
+                searchTree[*iter] = v;
+
+                // if it is visited, set the node in array to true,
+                // *iter - 1 because the startVertex and visited have 1 index difference
+                if (visited[*iter - 1] == false)
+                {
+                    visited[*iter - 1] = true;
+                }
+                q.push(*iter);
+            }
+        }
     }
 
     return searchTree;
@@ -56,9 +62,8 @@ int count_components(Digraph *g)
         {
             count++;
             visited[i] = true;
-            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i);
+            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i + 1, visited); // notice it is i+1 since the first node start at 1
         }
-        
     }
 
     return count;
