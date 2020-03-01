@@ -13,7 +13,11 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
     searchTree[startVertex] = -1;
 
     queue<int> q;
+
     q.push(startVertex);
+    
+    // the initial node is visited
+    visited[startVertex-1] = true;
 
     while (!q.empty())
     {
@@ -43,6 +47,7 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
 // count how many connected graphs
 int count_components(Digraph *g)
 {
+    // initiate a count and the size of the graph
     int count = 0;
     int numofvert = g->size();
 
@@ -60,8 +65,8 @@ int count_components(Digraph *g)
     {
         if (visited[i] == false)
         {
+            // count goes up when the nodes is not included in previous brenches
             count++;
-            visited[i] = true;
             unordered_map<int, int> searchTree = breadthFirstSearch(*g, i + 1, visited); // "i+1" because vistied[1] is == node 
         }
     }
