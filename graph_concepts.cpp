@@ -44,16 +44,24 @@ int count_components(Digraph *g)
 
     // create a dynamic array to keep track of visited vertex
     unordered_set<int> visitedset;
+
+    // To store the return from the breadthfirstsearch
     unordered_map<int, int> searchTree;
 
-    for (auto i : vec1) {
+    // iterate thorugh the vec1 from the graph
+    for (auto i : vec1)
+    {
+        // if the vertex have not visit yet, use breadthfirstsearch
+        // to find paths
         if (visitedset.find(i) == visitedset.end())
         {
             count++;
             visitedset.insert(i);
             searchTree = breadthFirstSearch(*g, i);
-        } 
-        for (auto& j: searchTree)
+        }
+
+        // store the visited vertex back in to visitedset
+        for (auto &j : searchTree)
         {
             if (visitedset.find(j.first) == visitedset.end())
             {
@@ -68,7 +76,7 @@ int count_components(Digraph *g)
     return count;
 }
 
-Digraph* read_city_graph_undirected(char filename[])
+Digraph *read_city_graph_undirected(char filename[])
 {
     static Digraph graph;
     ifstream file;
@@ -104,7 +112,6 @@ Digraph* read_city_graph_undirected(char filename[])
                 // adding the edges to the undigraph
                 graph.addEdge(firstedge, secondedge);
                 graph.addEdge(secondedge, firstedge);
-                
             }
             // Neither
             else
@@ -135,31 +142,11 @@ int main(int argc, char *argv[])
     graph.addEdge(4, 1);
     cout << count_components(&graph) << endl;
 
-
     // part 2;
     char filename[] = "edmonton-roads-2.0.1.txt";
-    Digraph* ptr_graph = read_city_graph_undirected(filename);
+    Digraph *ptr_graph = read_city_graph_undirected(filename);
     int n = count_components(&(*ptr_graph));
     cout << n << endl;
 
     return 0;
 }
-
-
-
-
-
-
-
-// void depthfirstsearch(int u, int prev, const Digraph& g)
-// {
-//     if (searchTree.find(u) == searchTree.end())
-//     {
-//         return;
-//     }
-//     searchTree[u] = prev;
-//     for (auto iter = g.neighbours(u); iter != g.endIterator(u); iter++)
-//     {
-//         depthfirstsearch(*iter,u,g);
-//     }
-// }
