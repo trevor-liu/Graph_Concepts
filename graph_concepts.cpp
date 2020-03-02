@@ -8,17 +8,14 @@
 using namespace std;
 
 // this is the breadthfirstsearch developed in class
-unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, int &count)
+unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex)
 {
     unordered_map<int, int> searchTree; // map each vertex to its predecessor
 
     searchTree[startVertex] = -1;
 
     queue<int> q;
-
     q.push(startVertex);
-
-    // the initial node is visited
 
     while (!q.empty())
     {
@@ -30,9 +27,6 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
             if (searchTree.find(*iter) == searchTree.end())
             {
                 searchTree[*iter] = v;
-
-                // if it is visited, set the node in array to true,
-                // *iter - 1 because the first node is correspond to visited[0]
                 q.push(*iter);
             }
         }
@@ -46,14 +40,31 @@ int count_components(Digraph *g)
 {
     // initiate a count and the size of the graph
     int count = 0;
-    int numofvert = g->size();
+    vector<int> vec1 = g->vertices();
 
     // create a dynamic array to keep track of visited vertex
     unordered_set<int> visitedset;
+    unordered_map<int, int> searchTree;
 
-    // find the nodes that visited using breadthFirstSearch
-    unordered_map<int, int> searchTree = breadthFirstSearch(*g, 1, count); // "i+1" because vistied[1] is == node
-
+    for (auto i : vec1) {
+        if (visitedset.find(i) == visitedset.end())
+        {
+            count++;
+            visitedset.insert(i);
+            searchTree = breadthFirstSearch(*g, i);
+        } 
+        for (auto& j: searchTree)
+        {
+            if (visitedset.find(j.first) == visitedset.end())
+            {
+                visitedset.insert(j.first);
+            }
+            else if (visitedset.find(j.second) == visitedset.end())
+            {
+                visitedset.insert(j.second);
+            }
+        }
+    }
     return count;
 }
 
@@ -126,10 +137,10 @@ int main(int argc, char *argv[])
 
 
     // part 2;
-    // char filename[] = "edmonton-roads-2.0.1.txt";
-    // Digraph* ptr_graph = read_city_graph_undirected(filename);
-    // int n = count_components(&(*ptr_graph));
-    // cout << (*ptr_graph).size() << endl;
+    char filename[] = "edmonton-roads-2.0.1.txt";
+    Digraph* ptr_graph = read_city_graph_undirected(filename);
+    int n = count_components(&(*ptr_graph));
+    cout << n << endl;
 
     return 0;
 }
