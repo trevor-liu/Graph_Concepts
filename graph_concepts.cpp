@@ -2,11 +2,13 @@
 
 #include <iostream>
 #include <queue>
+#include <string>
+#include <fstream>
 #include "digraph.h"
 using namespace std;
 
 // this is the breadthfirstsearch developed in class
-unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, bool *&visited)
+unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex, int &count)
 {
     unordered_map<int, int> searchTree; // map each vertex to its predecessor
 
@@ -15,9 +17,8 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
     queue<int> q;
 
     q.push(startVertex);
-    
+
     // the initial node is visited
-    visited[startVertex-1] = true;
 
     while (!q.empty())
     {
@@ -32,10 +33,6 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
 
                 // if it is visited, set the node in array to true,
                 // *iter - 1 because the first node is correspond to visited[0]
-                if (visited[*iter - 1] == false)
-                {
-                    visited[*iter - 1] = true;
-                }
                 q.push(*iter);
             }
         }
@@ -52,32 +49,64 @@ int count_components(Digraph *g)
     int numofvert = g->size();
 
     // create a dynamic array to keep track of visited vertex
-    bool *visited = new bool[numofvert];
-
-    // set all vertex initially as not visited
-    for (int i = 0; i < numofvert; i++)
-    {
-        visited[i] = false;
-    }
+    unordered_set<int> visitedset;
 
     // find the nodes that visited using breadthFirstSearch
-    for (int i = 0; i < numofvert; i++)
-    {
-        if (visited[i] == false)
-        {
-            // count goes up when the nodes is not included in previous brenches
-            count++;
-            unordered_map<int, int> searchTree = breadthFirstSearch(*g, i + 1, visited); // "i+1" because vistied[1] is == node 
-        }
-    }
+    unordered_map<int, int> searchTree = breadthFirstSearch(*g, 1, count); // "i+1" because vistied[1] is == node
 
     return count;
 }
 
+Digraph* read_city_graph_undirected(char filename[])
+{
+    static Digraph graph;
+    ifstream file;
 
+    file.open(filename);
+    if (!file.is_open())
+    {
+        cout << "error when opening file" << endl;
+    }
+    else
+    {
+        string line;
+        while (file.good())
+        {
+            getline(file, line);
 
+            // The input for vertices
+            if (line[0] == 'V')
+            {
+                // find the index when the vectex end
+                int endofvert = line.find(',', 2);
+                graph.addVertex(stoi(line.substr(2, endofvert)));
+            }
+            // The Edges of the graph
+            else if (line[0] == 'E')
+            {
+                // find the index of the left and right edges
+                int endoffirstedge = line.find(',', 2);
+                int endofsecondedge = line.find(',', endoffirstedge + 1);
+                int firstedge = stoi(line.substr(2, endoffirstedge));
+                int secondedge = stoi(line.substr(endoffirstedge + 1, endofsecondedge));
+
+                // adding the edges to the undigraph
+                graph.addEdge(firstedge, secondedge);
+                graph.addEdge(secondedge, firstedge);
+                
+            }
+            // Neither
+            else
+            {
+                cout << "error" << endl;
+            }
+        }
+    }
+    return &graph;
+}
 int main(int argc, char *argv[])
 {
+    // Part 1
     Digraph graph;
     int nodes[] = {1, 2, 3, 4, 5, 6};
     for (auto v : nodes)
@@ -95,8 +124,21 @@ int main(int argc, char *argv[])
     graph.addEdge(4, 1);
     cout << count_components(&graph) << endl;
 
+
+    // part 2;
+    // char filename[] = "edmonton-roads-2.0.1.txt";
+    // Digraph* ptr_graph = read_city_graph_undirected(filename);
+    // int n = count_components(&(*ptr_graph));
+    // cout << (*ptr_graph).size() << endl;
+
     return 0;
 }
+
+
+
+
+
+
 
 // void depthfirstsearch(int u, int prev, const Digraph& g)
 // {
