@@ -1,0 +1,23 @@
+Name: Trevor Liu
+ID #: 1589202
+CMPUT 275 Winter2020
+
+Weekly Assignment 5: Graph Concepts
+
+
+Included Files:
+    * graph_concepts.cpp
+	* digraph.cpp
+	* digraph.h
+	* edmonton-roads-2.0.1.txt
+    * Makefile
+    * README
+
+Running Instruction:
+    1. Type in the command line "make" while in the directory of the file
+    2. Type "./graph_concepts"
+    3. Type "make clean" to remove the object and executable
+
+
+Notes and Assumptions:
+    The breadthfirstsearch was using the template implemented in class.

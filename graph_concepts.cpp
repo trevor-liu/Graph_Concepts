@@ -142,9 +142,12 @@ int main(int argc, char *argv[])
     graph.addEdge(4, 1);
     cout << count_components(&graph) << endl;
 
-    // part 2;
+    // part 2
+    // read from the file and create a tree
     char filename[] = "edmonton-roads-2.0.1.txt";
     Digraph *ptr_graph = read_city_graph_undirected(filename);
+
+    // count the connected components in edmonton map
     int n = count_components(&(*ptr_graph));
     cout << n << endl;
 
