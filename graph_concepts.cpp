@@ -1,13 +1,23 @@
-// A template for the Graph Concepts Exercise in C++.
+//---------------------------------------------------------------------------------
+// Name: Trevor Liu
+// ID #: 1589202
+// CMPUT 275 Winter2020
+// 
 
 #include <iostream>
 #include <queue>
-#include <string>
 #include <fstream>
 #include "digraph.h"
 using namespace std;
 
-// this is the breadthfirstsearch developed in class
+/*
+    Description: Using breadthFirstSearch to find all possibel path
+    Arguments:
+        graph (Digraph &): pass by reference of a graph
+        startVertex (int): Which vertex should we start with
+    Returns:
+        searchTree (unordered_map): vertexes that travelled through
+*/
 unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex)
 {
     unordered_map<int, int> searchTree; // map each vertex to its predecessor
@@ -35,7 +45,13 @@ unordered_map<int, int> breadthFirstSearch(const Digraph &graph, int startVertex
     return searchTree;
 }
 
-// count how many connected graphs
+/*
+    Description: Count how many connected components is in the graph.
+    Arguments:
+        g (Digraph*): A pointers to an instances of Digraph
+    Returns:
+        count (int): number of connected components
+*/
 int count_components(Digraph *g)
 {
     // initiate a count and the size of the graph
@@ -76,6 +92,13 @@ int count_components(Digraph *g)
     return count;
 }
 
+/*
+    Description: Read from a file and make a graph.
+    Arguments:
+        filename[] (char): A character array for filename to read from
+    Returns:
+        graph (Digraph*): return a pointer to the graph generated
+*/
 Digraph *read_city_graph_undirected(char filename[])
 {
     static Digraph graph;
